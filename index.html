@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Oud & Aura</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Georgia',serif;background:#0a0806;color:#e8dcc8;min-height:100vh}
+:root{--gold:#c9a84c;--gold-light:#e8c97a;--dark:#0a0806;--dark2:#13100c;--dark3:#1e1810;--cream:#e8dcc8;--cream2:#b8a88a}
+a{color:var(--gold);text-decoration:none}
+
+nav{background:#0d0b08;border-bottom:1px solid #2a2218;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:70px;position:sticky;top:0;z-index:100}
+.logo{font-size:1.5rem;letter-spacing:3px;color:var(--gold);font-style:italic}
+.logo span{color:var(--cream);font-weight:300}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{color:var(--cream2);font-size:.85rem;letter-spacing:2px;text-transform:uppercase;font-family:sans-serif;transition:.2s}
+.nav-links a:hover{color:var(--gold)}
+.cart-btn{background:none;border:1px solid var(--gold);color:var(--gold);padding:8px 18px;cursor:pointer;font-size:.8rem;letter-spacing:2px;text-transform:uppercase;font-family:sans-serif;display:flex;align-items:center;gap:8px;transition:.2s}
+.cart-btn:hover{background:var(--gold);color:#0a0806}
+.cart-count{background:var(--gold);color:#0a0806;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;font-family:sans-serif}
+
+hero{display:block;background:linear-gradient(135deg,#0a0806 0%,#1e1810 50%,#0a0806 100%);padding:100px 2rem;text-align:center;border-bottom:1px solid #2a2218;position:relative;overflow:hidden}
+hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(201,168,76,.08) 0%,transparent 70%)}
+.hero-tag{font-family:sans-serif;font-size:.75rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem}
+.hero-title{font-size:clamp(2.5rem,6vw,4.5rem);letter-spacing:6px;color:var(--cream);font-weight:300;margin-bottom:1rem;line-height:1.1}
+.hero-title em{color:var(--gold);font-style:italic}
+.hero-sub{font-family:sans-serif;font-size:.95rem;color:var(--cream2);letter-spacing:1px;max-width:500px;margin:0 auto 2.5rem;line-height:1.8}
+.hero-btn{display:inline-block;background:var(--gold);color:#0a0806;padding:14px 40px;font-family:sans-serif;font-size:.8rem;letter-spacing:3px;text-transform:uppercase;cursor:pointer;border:none;transition:.2s}
+.hero-btn:hover{background:var(--gold-light)}
+.hero-ornament{color:var(--gold);font-size:1.5rem;margin:1.5rem 0;opacity:.5}
+
+.section{padding:60px 2rem;max-width:1200px;margin:0 auto}
+.section-header{text-align:center;margin-bottom:3rem}
+.section-header h2{font-size:1.8rem;letter-spacing:4px;color:var(--cream);font-weight:300;margin-bottom:.5rem}
+.section-header p{font-family:sans-serif;font-size:.85rem;color:var(--cream2);letter-spacing:1px}
+.gold-line{width:60px;height:1px;background:var(--gold);margin:1rem auto}
+
+.search-filter{display:flex;gap:1rem;margin-bottom:2.5rem;flex-wrap:wrap;align-items:center}
+.search-wrap{flex:1;min-width:200px;position:relative}
+.search-wrap input{width:100%;background:#13100c;border:1px solid #2a2218;color:var(--cream);padding:11px 16px 11px 40px;font-family:sans-serif;font-size:.9rem;outline:none;transition:.2s}
+.search-wrap input:focus{border-color:var(--gold)}
+.search-wrap input::placeholder{color:#665a42}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#665a42;font-size:14px;font-family:sans-serif}
+.filters{display:flex;gap:.5rem;flex-wrap:wrap}
+.filter-btn{background:none;border:1px solid #2a2218;color:var(--cream2);padding:8px 16px;cursor:pointer;font-family:sans-serif;font-size:.75rem;letter-spacing:1px;text-transform:uppercase;transition:.2s}
+.filter-btn:hover,.filter-btn.active{border-color:var(--gold);color:var(--gold)}
+
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.5rem}
+.product-card{background:#13100c;border:1px solid #2a2218;cursor:pointer;transition:.3s;position:relative;overflow:hidden}
+.product-card:hover{border-color:#4a3c24;transform:translateY(-3px)}
+.product-card:hover .product-img-wrap{background:#1e1810}
+.product-img-wrap{background:#18140e;height:220px;display:flex;align-items:center;justify-content:center;transition:.3s;position:relative}
+.product-icon{font-size:4rem;opacity:.85}
+.product-badge{position:absolute;top:12px;left:12px;background:var(--gold);color:#0a0806;font-family:sans-serif;font-size:.65rem;letter-spacing:2px;padding:4px 10px;text-transform:uppercase;font-weight:700}
+.product-info{padding:1.2rem}
+.product-category{font-family:sans-serif;font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem}
+.product-name{font-size:1.05rem;letter-spacing:1px;color:var(--cream);margin-bottom:.3rem}
+.product-desc{font-family:sans-serif;font-size:.8rem;color:var(--cream2);line-height:1.5;margin-bottom:1rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.product-footer{display:flex;align-items:center;justify-content:space-between}
+.product-price{font-size:1.1rem;color:var(--gold);letter-spacing:1px}
+.product-price small{font-family:sans-serif;font-size:.7rem;color:var(--cream2)}
+.add-btn{background:none;border:1px solid var(--gold);color:var(--gold);padding:7px 14px;cursor:pointer;font-family:sans-serif;font-size:.7rem;letter-spacing:1px;transition:.2s}
+.add-btn:hover{background:var(--gold);color:#0a0806}
+
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;overflow-y:auto}
+.overlay.open{display:flex;align-items:flex-start;justify-content:center;padding:2rem 1rem}
+.modal{background:#13100c;border:1px solid #2a2218;max-width:700px;width:100%;margin:auto;position:relative}
+.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--cream2);font-size:1.4rem;cursor:pointer;line-height:1;z-index:1}
+.modal-close:hover{color:var(--gold)}
+.modal-img{background:#18140e;height:300px;display:flex;align-items:center;justify-content:center;font-size:6rem}
+.modal-body{padding:2rem}
+.modal-cat{font-family:sans-serif;font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
+.modal-name{font-size:2rem;letter-spacing:3px;color:var(--cream);font-weight:300;margin-bottom:.5rem}
+.modal-price{font-size:1.5rem;color:var(--gold);margin-bottom:1rem}
+.modal-desc{font-family:sans-serif;color:var(--cream2);line-height:1.8;margin-bottom:1.5rem}
+.modal-notes{display:flex;gap:2rem;margin-bottom:1.5rem;padding:1rem;border:1px solid #2a2218}
+.modal-note{font-family:sans-serif;font-size:.8rem;text-align:center}
+.modal-note span{display:block;color:var(--gold);font-size:.7rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:.3rem}
+.modal-add{background:var(--gold);color:#0a0806;border:none;padding:14px 40px;font-family:sans-serif;font-size:.8rem;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:.2s;width:100%}
+.modal-add:hover{background:var(--gold-light)}
+
+.cart-panel{position:fixed;top:0;right:-420px;width:400px;max-width:100vw;height:100vh;background:#0d0b08;border-left:1px solid #2a2218;z-index:300;transition:.3s;display:flex;flex-direction:column}
+.cart-panel.open{right:0}
+.cart-header{padding:1.5rem;border-bottom:1px solid #2a2218;display:flex;justify-content:space-between;align-items:center}
+.cart-header h3{font-size:1rem;letter-spacing:3px;text-transform:uppercase;color:var(--cream);font-family:sans-serif;font-weight:400}
+.cart-close{background:none;border:none;color:var(--cream2);font-size:1.3rem;cursor:pointer}
+.cart-close:hover{color:var(--gold)}
+.cart-items{flex:1;overflow-y:auto;padding:1rem}
+.cart-empty{text-align:center;padding:3rem 1rem;font-family:sans-serif;color:var(--cream2);font-size:.9rem}
+.cart-item{display:flex;gap:1rem;padding:1rem 0;border-bottom:1px solid #1e1810;align-items:center}
+.cart-item-icon{font-size:2rem;width:50px;text-align:center;flex-shrink:0}
+.cart-item-info{flex:1;min-width:0}
+.cart-item-name{font-size:.95rem;color:var(--cream);letter-spacing:1px;margin-bottom:.2rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cart-item-price{font-family:sans-serif;font-size:.85rem;color:var(--gold)}
+.cart-item-qty{display:flex;align-items:center;gap:.5rem;margin-top:.4rem}
+.qty-btn{background:none;border:1px solid #2a2218;color:var(--cream);width:24px;height:24px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;font-family:sans-serif;transition:.2s}
+.qty-btn:hover{border-color:var(--gold);color:var(--gold)}
+.qty-num{font-family:sans-serif;font-size:.85rem;color:var(--cream);min-width:20px;text-align:center}
+.cart-remove{background:none;border:none;color:#555;cursor:pointer;font-size:.9rem;font-family:sans-serif;transition:.2s}
+.cart-remove:hover{color:#e24b4a}
+.cart-footer{padding:1.5rem;border-top:1px solid #2a2218}
+.cart-total{display:flex;justify-content:space-between;font-family:sans-serif;margin-bottom:1rem}
+.cart-total span:first-child{color:var(--cream2);font-size:.85rem;letter-spacing:1px;text-transform:uppercase}
+.cart-total span:last-child{color:var(--gold);font-size:1.1rem}
+.checkout-btn{width:100%;background:var(--gold);color:#0a0806;border:none;padding:14px;font-family:sans-serif;font-size:.8rem;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:.2s}
+.checkout-btn:hover{background:var(--gold-light)}
+
+.privacy-section{background:#0d0b08;border-top:1px solid #2a2218;padding:60px 2rem}
+.privacy-wrap{max-width:800px;margin:0 auto}
+.privacy-wrap h2{font-size:1.5rem;letter-spacing:4px;color:var(--cream);font-weight:300;margin-bottom:2rem;text-align:center}
+.privacy-wrap h3{font-family:sans-serif;font-size:.9rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:1.5rem 0 .6rem}
+.privacy-wrap p{font-family:sans-serif;font-size:.85rem;color:var(--cream2);line-height:1.9}
+.privacy-wrap ul{font-family:sans-serif;font-size:.85rem;color:var(--cream2);line-height:1.9;padding-left:1.5rem}
+
+footer{background:#0a0806;border-top:1px solid #1e1810;padding:2rem;text-align:center}
+footer p{font-family:sans-serif;font-size:.75rem;color:#665a42;letter-spacing:1px}
+footer .gold-text{color:var(--gold)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Oud <span>&</span> Aura</div>
+  <ul class="nav-links">
+    <li><a href="#collection" onclick="scrollTo('#collection')">Collection</a></li>
+    <li><a href="#privacy" onclick="scrollTo('#privacy')">Privacy</a></li>
+  </ul>
+  <button class="cart-btn" onclick="toggleCart()">
+    <span>&#128722;</span> Cart <span class="cart-count" id="cartCount">0</span>
+  </button>
+</nav>
+
+<hero>
+  <div class="hero-tag">Luxury Arabian Perfumery</div>
+  <h1 class="hero-title">Where <em>Oud</em> Meets<br>Aura</h1>
+  <p class="hero-sub">Rare ingredients. Timeless scents. Crafted for those who leave an impression.</p>
+  <button class="hero-btn" onclick="document.getElementById('collection').scrollIntoView({behavior:'smooth'})">Explore Collection</button>
+  <div class="hero-ornament">✦ ✦ ✦</div>
+</hero>
+
+<div class="section" id="collection">
+  <div class="section-header">
+    <h2>Our Collection</h2>
+    <div class="gold-line"></div>
+    <p>Each fragrance tells a story of heritage and luxury</p>
+  </div>
+  <div class="search-filter">
+    <div class="search-wrap">
+      <span class="search-icon">&#128269;</span>
+      <input type="text" id="searchInput" placeholder="Search fragrances..." oninput="filterProducts()"/>
+    </div>
+    <div class="filters" id="filterBtns">
+      <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+      <button class="filter-btn" onclick="setFilter('Oud',this)">Oud</button>
+      <button class="filter-btn" onclick="setFilter('Floral',this)">Floral</button>
+      <button class="filter-btn" onclick="setFilter('Oriental',this)">Oriental</button>
+      <button class="filter-btn" onclick="setFilter('Fresh',this)">Fresh</button>
+    </div>
+  </div>
+  <div class="products-grid" id="productsGrid"></div>
+</div>
+
+<div class="privacy-section" id="privacy">
+  <div class="privacy-wrap">
+    <h2>Privacy Policy</h2>
+    <div class="gold-line"></div>
+    <p>Last updated: April 2026</p>
+    <h3>1. Information We Collect</h3>
+    <p>We collect information you provide directly to us, including name, email address, shipping address, and payment details when you place an order. We may also collect browsing data to improve your experience.</p>
+    <h3>2. How We Use Your Information</h3>
+    <ul>
+      <li>To process and fulfill your orders</li>
+      <li>To send order confirmations and shipping updates</li>
+      <li>To respond to your inquiries and provide customer support</li>
+      <li>To send promotional communications (with your consent)</li>
+      <li>To improve our website and services</li>
+    </ul>
+    <h3>3. Information Sharing</h3>
+    <p>We do not sell, trade, or otherwise transfer your personal information to third parties without your consent, except trusted partners who assist in operating our website or servicing you, as long as those parties agree to keep this information confidential.</p>
+    <h3>4. Data Security</h3>
+    <p>We implement industry-standard security measures to protect your personal information. All payment transactions are encrypted using SSL technology.</p>
+    <h3>5. Cookies</h3>
+    <p>Our website uses cookies to enhance your experience, analyze site traffic, and personalize content. You may disable cookies in your browser settings, though this may affect site functionality.</p>
+    <h3>6. Your Rights</h3>
+    <p>You have the right to access, correct, or delete your personal data at any time. To exercise these rights, contact us at privacy@oudaura.com.</p>
+    <h3>7. Contact Us</h3>
+    <p>If you have questions about this Privacy Policy, please contact us at: <a href="mailto:privacy@oudaura.com">privacy@oudaura.com</a></p>
+  </div>
+</div>
+
+<footer>
+  <p class="gold-text" style="font-size:1rem;letter-spacing:3px;font-style:italic;margin-bottom:.5rem">Oud & Aura</p>
+  <p>© 2026 Oud & Aura. All rights reserved. — Riyadh, Kingdom of Saudi Arabia</p>
+</footer>
+
+<div class="overlay" id="productOverlay" onclick="closeModal(event)">
+  <div class="modal" id="productModal">
+    <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    <div class="modal-img" id="modalImg"></div>
+    <div class="modal-body">
+      <div class="modal-cat" id="modalCat"></div>
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-price" id="modalPrice"></div>
+      <p class="modal-desc" id="modalDesc"></p>
+      <div class="modal-notes" id="modalNotes"></div>
+      <button class="modal-add" id="modalAddBtn">Add to Cart</button>
+    </div>
+  </div>
+</div>
+
+<div class="cart-panel" id="cartPanel">
+  <div class="cart-header">
+    <h3>Your Cart</h3>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total">
+      <span>Total</span>
+      <span id="cartTotal">SAR 0</span>
+    </div>
+    <button class="checkout-btn">Proceed to Checkout</button>
+  </div>
+</div>
+
+<script>
+const products=[
+  {id:1,name:'Oud Al Layl',category:'Oud',price:420,icon:'🕯️',badge:'Bestseller',desc:'A deep, smoky oud with notes of aged wood, amber, and a whisper of saffron. The essence of Arabian nights.',notes:['Oud Wood','Amber','Saffron']},
+  {id:2,name:'Rose de Malak',category:'Floral',price:380,icon:'🌹',badge:null,desc:'Delicate Taif rose intertwined with musk and sandalwood. Timeless femininity captured in a bottle.',notes:['Taif Rose','Sandalwood','White Musk']},
+  {id:3,name:'Khaleeji Nights',category:'Oriental',price:560,icon:'⭐',badge:'Limited',desc:'An opulent Oriental blend of bakhoor, incense, and exotic spices. Worn by royalty across generations.',notes:['Bakhoor','Incense','Cardamom']},
+  {id:4,name:'Breeze of Najd',category:'Fresh',price:310,icon:'💨',badge:null,desc:'Crisp desert air with citrus, green tea, and cedar. A modern scent for the contemporary soul.',notes:['Citrus','Green Tea','Cedar']},
+  {id:5,name:'Aoud Mystique',category:'Oud',price:720,icon:'🔮',badge:'Exclusive',desc:'Ultra-premium Cambodian oud aged 20 years, layered with vetiver and dark chocolate. Utterly unique.',notes:['Cambodian Oud','Vetiver','Dark Chocolate']},
+  {id:6,name:'Jasmine Sands',category:'Floral',price:340,icon:'🌸',badge:null,desc:'Sun-drenched jasmine from the valleys of Morocco, blended with warm vanilla and musky undertones.',notes:['Jasmine','Vanilla','Musk']},
+  {id:7,name:'Amber Dusk',category:'Oriental',price:490,icon:'🌅',badge:null,desc:'Rich ambergris and labdanum melt into cinnamon and tonka bean — a scent that lingers till dawn.',notes:['Ambergris','Labdanum','Tonka Bean']},
+  {id:8,name:'Mint of Arabia',category:'Fresh',price:280,icon:'🌿',badge:null,desc:'Cool spearmint and eucalyptus over a base of light musk and sea salt. Refreshing and modern.',notes:['Spearmint','Eucalyptus','Sea Salt']},
+];
+
+let cart=[],activeFilter='all',currentProduct=null;
+
+function renderProducts(){
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  const grid=document.getElementById('productsGrid');
+  const filtered=products.filter(p=>{
+    const matchCat=activeFilter==='all'||p.category===activeFilter;
+    const matchQ=p.name.toLowerCase().includes(q)||p.category.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q);
+    return matchCat&&matchQ;
+  });
+  if(!filtered.length){grid.innerHTML='<p style="font-family:sans-serif;color:var(--cream2);grid-column:1/-1;text-align:center;padding:3rem">No fragrances found.</p>';return;}
+  grid.innerHTML=filtered.map(p=>`
+    <div class="product-card" onclick="openProduct(${p.id})">
+      <div class="product-img-wrap">
+        ${p.badge?`<div class="product-badge">${p.badge}</div>`:''}
+        <div class="product-icon">${p.icon}</div>
+      </div>
+      <div class="product-info">
+        <div class="product-category">${p.category}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-desc">${p.desc}</div>
+        <div class="product-footer">
+          <div class="product-price">SAR ${p.price}<br><small>100ml EDP</small></div>
+          <button class="add-btn" onclick="event.stopPropagation();addToCart(${p.id})">+ Add</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function setFilter(cat,el){
+  activeFilter=cat;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  renderProducts();
+}
+
+function filterProducts(){renderProducts();}
+
+function openProduct(id){
+  const p=products.find(x=>x.id===id);
+  currentProduct=p;
+  document.getElementById('modalImg').innerHTML=`<div style="font-size:6rem">${p.icon}</div>`;
+  document.getElementById('modalCat').textContent=p.category;
+  document.getElementById('modalName').textContent=p.name;
+  document.getElementById('modalPrice').textContent=`SAR ${p.price} · 100ml EDP`;
+  document.getElementById('modalDesc').textContent=p.desc;
+  document.getElementById('modalNotes').innerHTML=p.notes.map(n=>`<div class="modal-note"><span>Note</span>${n}</div>`).join('');
+  document.getElementById('modalAddBtn').onclick=()=>{addToCart(p.id);closeModalDirect();};
+  document.getElementById('productOverlay').classList.add('open');
+}
+
+function closeModal(e){if(e.target===document.getElementById('productOverlay'))closeModalDirect();}
+function closeModalDirect(){document.getElementById('productOverlay').classList.remove('open');}
+
+function addToCart(id){
+  const p=products.find(x=>x.id===id);
+  const existing=cart.find(x=>x.id===id);
+  if(existing)existing.qty++;
+  else cart.push({...p,qty:1});
+  updateCart();
+}
+
+function updateCart(){
+  const count=cart.reduce((s,x)=>s+x.qty,0);
+  document.getElementById('cartCount').textContent=count;
+  const items=document.getElementById('cartItems');
+  if(!cart.length){
+    items.innerHTML='<div class="cart-empty">Your cart is empty.<br>Explore our collection.</div>';
+    document.getElementById('cartFooter').style.display='none';
+    return;
+  }
+  items.innerHTML=cart.map(item=>`
+    <div class="cart-item">
+      <div class="cart-item-icon">${item.icon}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-price">SAR ${item.price * item.qty}</div>
+        <div class="cart-item-qty">
+          <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
+          <span class="qty-num">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
+        </div>
+      </div>
+      <button class="cart-remove" onclick="removeItem(${item.id})" title="Remove">✕</button>
+    </div>
+  `).join('');
+  const total=cart.reduce((s,x)=>s+x.price*x.qty,0);
+  document.getElementById('cartTotal').textContent=`SAR ${total}`;
+  document.getElementById('cartFooter').style.display='block';
+}
+
+function changeQty(id,delta){
+  const item=cart.find(x=>x.id===id);
+  if(!item)return;
+  item.qty+=delta;
+  if(item.qty<=0)cart=cart.filter(x=>x.id!==id);
+  updateCart();
+}
+
+function removeItem(id){cart=cart.filter(x=>x.id!==id);updateCart();}
+function toggleCart(){document.getElementById('cartPanel').classList.toggle('open');}
+
+renderProducts();
+updateCart();
+</script>
+</body>
+</html>
